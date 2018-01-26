@@ -2,25 +2,27 @@
 
 namespace Football\Common\Domain\Model;
 
+use Ramsey\Uuid\Uuid as RamseyUuid;
+
 abstract class Uuid
 {
     /**
-     * @var Uuid
+     * @var RamseyUuid
      */
     private $uuid;
 
     public static function generate(): Uuid
     {
-        return new static(Uuid::uuid4());
+        return new static(RamseyUuid::uuid4());
     }
 
 
     public static function fromString(string $userId): Uuid
     {
-        return new static(Uuid::fromString($userId));
+        return new static(RamseyUuid::fromString($userId));
     }
 
-    protected function __construct(Uuid $uuid)
+    protected function __construct(RamseyUuid $uuid)
     {
         $this->uuid = $uuid;
     }

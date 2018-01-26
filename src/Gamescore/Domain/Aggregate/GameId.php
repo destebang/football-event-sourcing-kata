@@ -1,6 +1,6 @@
 <?php
 
-namespace Football\Game\Domain\Model\Game;
+namespace Football\Gamescore\Domain\Aggregate;
 
 use Football\Common\Domain\Model\Uuid;
 

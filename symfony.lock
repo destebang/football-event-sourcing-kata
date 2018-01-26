@@ -5,6 +5,9 @@
     "doctrine/instantiator": {
         "version": "1.2.x-dev"
     },
+    "lstrojny/functional-php": {
+        "version": "1.7.0"
+    },
     "marc-mabe/php-enum": {
         "version": "v3.0.0"
     },
