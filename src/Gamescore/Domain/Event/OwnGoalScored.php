@@ -28,8 +28,8 @@ class OwnGoalScored extends AggregateChanged
     {
         /** @var self $event */
         $event = self::occur($gameId->toString(), [
-            self::SCORING_TEAM_ID_KEY => $scoringTeam->getId(),
-            self::PLAYER_ID_KEY => $player->getId()
+            self::SCORING_TEAM_ID_KEY => $scoringTeam->getId()->toString(),
+            self::PLAYER_ID_KEY => $player->getId()->toString()
         ]);
 
         $event->scoringTeam = $scoringTeam->getId();

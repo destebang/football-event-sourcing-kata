@@ -111,7 +111,10 @@ class Game extends BaseAggregateRoot
 
     private function getOnGamePlayer(PlayerId $playerId): ?Player
     {
-        $allPlayers = array_merge($this->local->getOnGamePlayers(), $this->visitor->getBenchPlayers());
+        $allPlayers = array_merge(
+            $this->local->getOnGamePlayers(),
+            $this->visitor->getOnGamePlayers()
+        );
 
         $playerOnGame = first($allPlayers, function (Player $player) use ($playerId) {
             return $player->getId()->equals($playerId);

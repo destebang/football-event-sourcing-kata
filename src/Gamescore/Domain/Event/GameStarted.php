@@ -57,7 +57,7 @@ class GameStarted extends AggregateChanged
             $this->local = new Team(
                 TeamId::fromString($this->payload['local']['id']),
                 $this->payload['local']['name'],
-                array_map($this->playerFromArray(), $this->payload['local']['starting_players']),
+                array_map($this->playerFromArray(), $this->payload['local']['on_game_players']),
                 array_map($this->playerFromArray(), $this->payload['local']['bench_players'])
             );
         }
@@ -71,7 +71,7 @@ class GameStarted extends AggregateChanged
             $this->visitor = new Team(
                 TeamId::fromString($this->payload['visitor']['id']),
                 $this->payload['visitor']['name'],
-                array_map($this->playerFromArray(), $this->payload['visitor']['starting_players']),
+                array_map($this->playerFromArray(), $this->payload['visitor']['on_game_players']),
                 array_map($this->playerFromArray(), $this->payload['visitor']['bench_players'])
             );
         }

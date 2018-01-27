@@ -39,3 +39,11 @@ services:
           - '@game_list'
         tags:
             - { name: 'prooph_service_bus.gamescoring_command_bus.route_target', message_detection: true }
+
+    Football\Gamescore\Application\Command\ScoreGoalHandler:
+        class: Football\Gamescore\Application\Command\ScoreGoalHandler
+        public: true
+        arguments:
+          - '@game_list'
+        tags:
+            - { name: 'prooph_service_bus.gamescoring_command_bus.route_target', message_detection: true }
