@@ -5,9 +5,11 @@ namespace Football\Gamescore\Domain\Aggregate;
 use Football\Common\Domain\Model\BaseAggregateRoot;
 use Football\Gamescore\Domain\Event\GameStarted;
 use Football\Gamescore\Domain\Event\GoalScored;
+use Football\Gamescore\Domain\Event\OwnGoalScored;
 use Football\Gamescore\Domain\Service\Game\LineupPolicy;
 use Football\Gamescore\Domain\ValueObject\Score;
 use function Functional\first;
+use Prooph\EventSourcing\AggregateChanged;
 
 class Game extends BaseAggregateRoot
 {
@@ -42,15 +44,12 @@ class Game extends BaseAggregateRoot
 
     public function scoreGoal(PlayerId $playerId): void
     {
-        $playerOnGame = $this->findOnGamePlayer($playerId);
+        $playerOnGame = $this->getOnGamePlayer($playerId);
 
-        if (!$playerOnGame) {
-            throw new \DomainException("Player with id given is not currently playing on the game");
-        }
         $this->recordThat(
             GoalScored::byPlayer(
                 $this->id,
-                $this->findPlayerTeam($playerOnGame),
+                $this->getPlayerTeam($playerOnGame),
                 $playerOnGame
             )
         );
@@ -58,7 +57,16 @@ class Game extends BaseAggregateRoot
 
     public function scoreOwnGoal(PlayerId $playerId): void
     {
+        $playerOnGame = $this->getOnGamePlayer($playerId);
+        $scoringTeam = $this->getPlayerTeam($playerOnGame) === $this->visitor ? $this->local : $this->visitor;
 
+        $this->recordThat(
+            OwnGoalScored::byPlayer(
+                $this->id,
+                $scoringTeam,
+                $playerOnGame
+            )
+        );
     }
 
     private function checkLineupPolicy(Team $local, Team $visitor, LineupPolicy $lineupPolicy): void
@@ -81,6 +89,11 @@ class Game extends BaseAggregateRoot
         $this->updateScoreFromGoalScored($goalScored);
     }
 
+    public function whenOwnGoalScored(OwnGoalScored $goalScored): void
+    {
+        $this->updateScoreFromGoalScored($goalScored);
+    }
+
     public function getScore(): Score
     {
         return $this->score;
@@ -96,30 +109,38 @@ class Game extends BaseAggregateRoot
         return $this->visitor;
     }
 
-    private function findOnGamePlayer(PlayerId $playerId): ?Player
+    private function getOnGamePlayer(PlayerId $playerId): ?Player
     {
         $allPlayers = array_merge($this->local->getOnGamePlayers(), $this->visitor->getBenchPlayers());
 
         $playerOnGame = first($allPlayers, function (Player $player) use ($playerId) {
             return $player->getId()->equals($playerId);
         });
+
+        if (!$playerOnGame) {
+            throw new \DomainException("Player with id given is not currently playing on the game");
+        }
+
         return $playerOnGame;
     }
 
-    private function findPlayerTeam(Player $player): ?Team
+    private function getPlayerTeam(Player $player): Team
     {
-        if (in_array($player, array_merge($this->local->getOnGamePlayers(), $this->local->getBenchPlayers()))) {
+        if ($this->local->playerIsOnTeam($player)) {
             return $this->local;
-        } elseif (in_array($player,  array_merge($this->visitor->getOnGamePlayers(), $this->visitor->getBenchPlayers()))) {
+        } elseif ($this->visitor->playerIsOnTeam($player)) {
             return $this->visitor;
-        } else {
-            return null;
         }
+
+        throw new \DomainException("Player is not in the game");
     }
 
-    private function updateScoreFromGoalScored(GoalScored $goalScored): void
+    /**
+     * @param AggregateChanged|GoalScored|OwnGoalScored $goalScored
+     */
+    private function updateScoreFromGoalScored(AggregateChanged $goalScored): void
     {
-        if ($goalScored->getTeamId()->equals($this->visitor->getId())) {
+        if ($goalScored->getScoringTeamId()->equals($this->visitor->getId())) {
             $this->score = $this->score->visitorScoreGoal();
         } else {
             $this->score = $this->score->localScoreGoal();

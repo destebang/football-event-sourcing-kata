@@ -67,6 +67,11 @@ class Team
         return $this->benchPlayers;
     }
 
+    public function playerIsOnTeam(Player $player): bool
+    {
+        return in_array($player, array_merge($this->onGamePlayers, $this->benchPlayers));
+    }
+
     public function toArray()
     {
         $playerToArray = function (Player $player) {

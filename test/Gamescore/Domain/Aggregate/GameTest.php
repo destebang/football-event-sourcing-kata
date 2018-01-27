@@ -4,6 +4,7 @@ namespace Football\Gamescore\Domain\Aggregate;
 
 use Football\Gamescore\Domain\Event\GameStarted;
 use Football\Gamescore\Domain\Event\GoalScored;
+use Football\Gamescore\Domain\Event\OwnGoalScored;
 use Football\Gamescore\Domain\Service\Game\LineupPolicy;
 use Football\Gamescore\Domain\ValueObject\Score;
 use PHPUnit\Framework\TestCase;
@@ -115,6 +116,44 @@ class GameTest extends TestCase
 
         $this->assertEquals(
             (Score::initScore())->localScoreGoal(),
+            $this->game()->getScore()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function givenAGameAPlayerOnTheBenchCanNotOwnscoreAGoal(): void
+    {
+        $this->givenAGameWasStarted();
+
+        $this->expectException(\DomainException::class);
+        $this->game()->scoreOwnGoal(PlayerId::fromString(self::ON_BENCH_PLAYER));
+    }
+
+    /**
+     * @test
+     */
+    public function givenANotOfTheGamePlayerItCanNotOwnScoreAGoal(): void
+    {
+        $this->givenAGameWasStarted();
+
+        $this->expectException(\DomainException::class);
+        $this->game()->scoreOwnGoal(PlayerId::generate());
+    }
+
+    /**
+     * @test
+     */
+    public function givenAPlayerInTheGameAOwnGoalCanBeScored(): void
+    {
+        $this->givenAGameWasStarted();
+
+        $this->game()->scoreOwnGoal(PlayerId::fromString(self::ON_GAME_PLAYER));
+        $this->assertInstanceOf(OwnGoalScored::class, $this->popNextRecordedEvent());
+
+        $this->assertEquals(
+            (Score::initScore())->visitorScoreGoal(),
             $this->game()->getScore()
         );
     }
