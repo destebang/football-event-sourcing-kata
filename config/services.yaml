@@ -19,9 +19,23 @@ services:
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
-    #Football\Controller\:
-    #    resource: '../src/Controller'
-    #    tags: ['controller.service_arguments']
+    Football\Gamescore\UserInterface\Controller\:
+        resource: '../src/Gamescore/UserInterface/Controller'
+        tags: ['controller.service_arguments']
 
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+    Football\Gamescore\UserInterface\Controller\ApiCommandController:
+        class: Football\Gamescore\UserInterface\Controller\ApiCommandController
+        arguments: ['@prooph_service_bus.gamescoring_command_bus', '@prooph_service_bus.message_factory']
+        tags: ['controller.service_arguments']
+
+    Football\Gamescore\Domain\Service\Game\SimpleLineupPolicy:
+      class: Football\Gamescore\Domain\Service\Game\SimpleLineupPolicy
+
+    Football\Gamescore\Application\Command\StartGameHandler:
+        class: Football\Gamescore\Application\Command\StartGameHandler
+        public: true
+        arguments:
+          - '@Football\Gamescore\Domain\Service\Game\SimpleLineupPolicy'
+          - '@game_list'
+        tags:
+            - { name: 'prooph_service_bus.gamescoring_command_bus.route_target', message_detection: true }

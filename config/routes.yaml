@@ -1,3 +1,4 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+command::start-game:
+    path: /api/game
+    defaults: { _controller: Football\Gamescore\UserInterface\Controller\ApiCommandController:postAction, prooph_command_name: 'Football\Gamescore\Application\Command\StartGame' }
+

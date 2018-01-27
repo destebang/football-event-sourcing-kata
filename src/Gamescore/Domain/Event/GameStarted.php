@@ -53,10 +53,6 @@ class GameStarted extends AggregateChanged
 
     public function local(): Team
     {
-        $playerFromArray = function (array $data): Player {
-            return Player::fromArray($data);
-        };
-
         if (!$this->local) {
             $this->local = new Team(
                 TeamId::fromString($this->payload['local']['id']),

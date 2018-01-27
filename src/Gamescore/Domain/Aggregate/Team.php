@@ -79,7 +79,7 @@ class Team
         };
 
         return [
-            'id' => $this->id,
+            'id' => $this->id->toString(),
             'name' => $this->name,
             'on_game_players' => array_map(
                 $playerToArray,
@@ -90,5 +90,19 @@ class Team
                 $this->benchPlayers
             ),
         ];
+    }
+
+    public static function fromArray(array $teamData): self
+    {
+        $playerFromArray = function (array $playerData) {
+            return Player::fromArray($playerData);
+        };
+
+        return new Team(
+            TeamId::fromString($teamData['id']),
+            $teamData['name'],
+            array_map($playerFromArray, $teamData['on_game_players']),
+            array_map($playerFromArray, $teamData['bench_players'])
+        );
     }
 }

@@ -12,9 +12,10 @@ class SimpleLineupPolicy implements LineupPolicy
 
     public function lineupIsValid(Team $team): bool
     {
-        return $this->noPlayerIsRepeated($team)
+        return true;
+        /*return $this->noPlayerIsRepeated($team)
             && $this->gamePlayersNumberIsTheExpected($team->getOnGamePlayers())
-            && $this->benchPlayersNumberIsNotOverTheMaximum($team->getBenchPlayers());
+            && $this->benchPlayersNumberIsNotOverTheMaximum($team->getBenchPlayers());*/
     }
 
     private function noPlayerIsRepeated(Team $team): bool
