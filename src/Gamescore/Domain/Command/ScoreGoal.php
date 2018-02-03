@@ -1,8 +1,9 @@
 <?php
 
-namespace Football\Gamescore\Application\Command;
+namespace Football\Gamescore\Domain\Command;
 
 use Assert\Assertion;
+use Football\Common\Domain\Model\Uuid;
 use Football\Gamescore\Domain\Aggregate\GameId;
 use Football\Gamescore\Domain\Aggregate\PlayerId;
 use Prooph\Common\Messaging\Command;
@@ -21,11 +22,17 @@ class ScoreGoal extends Command implements PayloadConstructable
         ]);
     }
 
+    /**
+     * @return GameId|Uuid
+     */
     public function gameId(): GameId
     {
         return GameId::fromString($this->payload['game_id']);
     }
 
+    /**
+     * @return PlayerId|Uuid
+     */
     public function playerId(): PlayerId
     {
         return PlayerId::fromString($this->payload['player_id']);

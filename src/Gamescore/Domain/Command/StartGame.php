@@ -1,6 +1,6 @@
 <?php
 
-namespace Football\Gamescore\Application\Command;
+namespace Football\Gamescore\Domain\Command;
 
 use Assert\Assertion;
 use Football\Gamescore\Domain\Aggregate\GameId;

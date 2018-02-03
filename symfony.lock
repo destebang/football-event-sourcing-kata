@@ -35,6 +35,15 @@
     "doctrine/doctrine-cache-bundle": {
         "version": "1.3.x-dev"
     },
+    "doctrine/doctrine-migrations-bundle": {
+        "version": "1.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.2",
+            "ref": "c1431086fec31f17fbcfe6d6d7e92059458facc1"
+        }
+    },
     "doctrine/inflector": {
         "version": "1.3.x-dev"
     },
@@ -43,6 +52,9 @@
     },
     "doctrine/lexer": {
         "version": "1.0.x-dev"
+    },
+    "doctrine/migrations": {
+        "version": "v1.7.x-dev"
     },
     "doctrine/orm": {
         "version": "2.7.x-dev"
@@ -55,6 +67,12 @@
     },
     "marc-mabe/php-enum": {
         "version": "3.0-dev"
+    },
+    "ocramius/package-versions": {
+        "version": "1.2.0"
+    },
+    "ocramius/proxy-manager": {
+        "version": "2.1.x-dev"
     },
     "paragonie/random_compat": {
         "version": "v2.0.11"
@@ -161,6 +179,9 @@
     "symfony/lts": {
         "version": "4-dev"
     },
+    "symfony/orm-pack": {
+        "version": "dev-master"
+    },
     "symfony/phpunit-bridge": {
         "version": "3.3",
         "recipe": {
@@ -196,5 +217,11 @@
     },
     "symfony/yaml": {
         "version": "4.0.x-dev"
+    },
+    "zendframework/zend-code": {
+        "version": "3.3-dev"
+    },
+    "zendframework/zend-eventmanager": {
+        "version": "3.3-dev"
     }
 }

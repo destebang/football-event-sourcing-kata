@@ -1,7 +1,8 @@
 <?php
 
-namespace Football\Gamescore\Application\Command;
+namespace Football\Gamescore\Application\CommandHandler;
 
+use Football\Gamescore\Domain\Command\StartGame;
 use Football\Gamescore\Domain\Aggregate\Game;
 use Football\Gamescore\Domain\Aggregate\GameList;
 use Football\Gamescore\Domain\Service\Game\LineupPolicy;

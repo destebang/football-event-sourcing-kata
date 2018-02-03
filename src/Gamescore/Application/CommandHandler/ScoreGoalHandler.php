@@ -1,7 +1,8 @@
 <?php
 
-namespace Football\Gamescore\Application\Command;
+namespace Football\Gamescore\Application\CommandHandler;
 
+use Football\Gamescore\Domain\Command\ScoreGoal;
 use Football\Gamescore\Domain\Aggregate\GameList;
 
 class ScoreGoalHandler

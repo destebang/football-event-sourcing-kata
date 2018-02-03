@@ -32,7 +32,7 @@ services:
       class: Football\Gamescore\Domain\Service\Game\SimpleLineupPolicy
 
     Football\Gamescore\Application\Command\StartGameHandler:
-        class: Football\Gamescore\Application\Command\StartGameHandler
+        class: Football\Gamescore\Application\CommandHandler\StartGameHandler
         public: true
         arguments:
           - '@Football\Gamescore\Domain\Service\Game\SimpleLineupPolicy'
@@ -41,7 +41,7 @@ services:
             - { name: 'prooph_service_bus.gamescoring_command_bus.route_target', message_detection: true }
 
     Football\Gamescore\Application\Command\ScoreGoalHandler:
-        class: Football\Gamescore\Application\Command\ScoreGoalHandler
+        class: Football\Gamescore\Application\CommandHandler\ScoreGoalHandler
         public: true
         arguments:
           - '@game_list'
