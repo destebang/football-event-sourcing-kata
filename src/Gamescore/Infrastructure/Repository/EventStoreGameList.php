@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: slimbook
- * Date: 27/01/18
- * Time: 12:53
- */
 
 namespace Football\Gamescore\Infrastructure\Repository;
-
 
 use Football\Gamescore\Domain\Aggregate\Game;
 use Football\Gamescore\Domain\Aggregate\GameId;

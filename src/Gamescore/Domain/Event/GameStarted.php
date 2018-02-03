@@ -42,7 +42,7 @@ class GameStarted extends AggregateChanged
         return $event;
     }
 
-    public function todoId(): GameId
+    public function gameId(): GameId
     {
         if (!$this->gameId) {
             $this->gameId = GameId::fromString($this->payload['game_id']);

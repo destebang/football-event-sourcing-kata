@@ -7,14 +7,14 @@ prooph_event_store:
                     repository_class: Football\Gamescore\Infrastructure\Repository\EventStoreGameList
                     aggregate_type: Football\Gamescore\Domain\Aggregate\Game
                     aggregate_translator: prooph_event_sourcing.aggregate_translator
-    #projection_managers:
-    #    todo_projection_manager:
-    #        event_store: Prooph\EventStore\Pdo\MySqlEventStore
-    #        connection: 'doctrine.pdo.connection'
-    #        projections:
-    #            user_projection:
-    #                read_model: Prooph\ProophessorDo\Projection\User\UserReadModel
-    #                projection: Prooph\ProophessorDo\Projection\User\UserProjection
+    projection_managers:
+        game_projection_manager:
+            event_store: Prooph\EventStore\Pdo\MySqlEventStore
+            connection: 'doctrine.pdo.connection'
+            projections:
+                game_projection:
+                    read_model: Football\Gamescore\Projection\Game\GameReadModel
+                    projection: Football\Gamescore\Projection\Game\GameProjection
     #            todo_projection:
     #                read_model: Prooph\ProophessorDo\Projection\Todo\TodoReadModel
     #                projection: Prooph\ProophessorDo\Projection\Todo\TodoProjection

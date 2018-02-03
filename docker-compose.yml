@@ -12,6 +12,15 @@ services:
       - MYSQL_DATABASE=gamescoring
     volumes:
       - ./vendor/prooph/pdo-event-store/scripts/mysql:/docker-entrypoint-initdb.d
+
+  projection_game:
+    image: prooph/php:7.1-cli
+    entrypoint: /app/.docker/wait_for_sql.sh
+    volumes:
+      - .:/app
+    depends_on:
+      - mysql
+    command: php bin/console event-store:projection:run game_projection
 #  nginx:
 #    image: prooph/nginx:www
 #    ports:

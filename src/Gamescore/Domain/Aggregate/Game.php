@@ -45,12 +45,14 @@ class Game extends BaseAggregateRoot
     public function scoreGoal(PlayerId $playerId): void
     {
         $playerOnGame = $this->getOnGamePlayer($playerId);
-
+        $team = $this->getPlayerTeam($playerOnGame);
+        $localOrVisitorTeam = $this->visitor === $team ? "visitor" : "local";
         $this->recordThat(
             GoalScored::byPlayer(
                 $this->id,
-                $this->getPlayerTeam($playerOnGame),
-                $playerOnGame
+                $team,
+                $playerOnGame,
+                $localOrVisitorTeam
             )
         );
     }
@@ -58,13 +60,16 @@ class Game extends BaseAggregateRoot
     public function scoreOwnGoal(PlayerId $playerId): void
     {
         $playerOnGame = $this->getOnGamePlayer($playerId);
-        $scoringTeam = $this->getPlayerTeam($playerOnGame) === $this->visitor ? $this->local : $this->visitor;
+        $team = $this->getPlayerTeam($playerOnGame);
+        $scoringTeam = $team === $this->visitor ? $this->local : $this->visitor;
+        $localOrVisitorTeam = $this->visitor === $team ? "visitor" : "local";
 
         $this->recordThat(
             OwnGoalScored::byPlayer(
                 $this->id,
                 $scoringTeam,
-                $playerOnGame
+                $playerOnGame,
+                $localOrVisitorTeam
             )
         );
     }

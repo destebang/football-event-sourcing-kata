@@ -11,40 +11,48 @@ use Prooph\EventSourcing\AggregateChanged;
 
 class GoalScored extends AggregateChanged
 {
-    private const SCORING_TEAM_ID_KEY = 'scoring_team_id';
-    private const PLAYER_ID_KEY = 'player_id';
+    protected const SCORING_TEAM_ID_KEY = 'scoring_team_id';
+    protected const PLAYER_ID_KEY = 'player_id';
+    protected const LOCAL_OR_VISITOR_KEY = 'local_or_visitor';
 
     /**
      * @var TeamId
      */
-    private $scoringTeamId;
+    protected $scoringTeam;
 
     /**
      * @var PlayerId
      */
-    private $playerId;
+    protected $playerId;
 
-    public static function byPlayer(GameId $gameId, Team $team, Player $player): GoalScored
+    /**
+     * @var string
+     */
+    protected $localOrVisitor;
+
+    public static function byPlayer(GameId $gameId, Team $scoringTeam, Player $player, string $localOrVisitor): GoalScored
     {
         /** @var self $event */
-        $event = self::occur($gameId->toString(), [
-            self::SCORING_TEAM_ID_KEY => $team->getId()->toString(),
-            self::PLAYER_ID_KEY => $player->getId()->toString()
+        $event = static::occur($gameId->toString(), [
+            self::SCORING_TEAM_ID_KEY => $scoringTeam->getId()->toString(),
+            self::PLAYER_ID_KEY => $player->getId()->toString(),
+            self::LOCAL_OR_VISITOR_KEY => $localOrVisitor
         ]);
 
-        $event->scoringTeamId = $team->getId();
+        $event->scoringTeam = $scoringTeam->getId();
         $event->playerId = $player->getId();
+        $event->localOrVisitor = $localOrVisitor;
 
         return $event;
     }
 
     public function getScoringTeamId(): TeamId
     {
-        if (!$this->scoringTeamId) {
-            $this->scoringTeamId = TeamId::fromString($this->payload[self::SCORING_TEAM_ID_KEY]);
+        if (!$this->scoringTeam) {
+            $this->scoringTeam = TeamId::fromString($this->payload[self::SCORING_TEAM_ID_KEY]);
         }
 
-        return $this->scoringTeamId;
+        return $this->scoringTeam;
     }
 
     public function getPlayerId(): PlayerId
@@ -53,5 +61,14 @@ class GoalScored extends AggregateChanged
             $this->playerId = PlayerId::fromString($this->payload[self::PLAYER_ID_KEY]);
         }
         return $this->playerId;
+    }
+
+    public function getLocalOrVisitor(): string
+    {
+        if (!$this->localOrVisitor) {
+            $this->localOrVisitor = $this->payload[self::LOCAL_OR_VISITOR_KEY];
+        }
+
+        return $this->localOrVisitor;
     }
 }

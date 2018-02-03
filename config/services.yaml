@@ -28,6 +28,9 @@ services:
         arguments: ['@prooph_service_bus.gamescoring_command_bus', '@prooph_service_bus.message_factory']
         tags: ['controller.service_arguments']
 
+    Football\Gamescore\Projection\Game\GameReadModel:
+        arguments: ['@doctrine.dbal.default_connection']
+
     Football\Gamescore\Domain\Service\Game\SimpleLineupPolicy:
       class: Football\Gamescore\Domain\Service\Game\SimpleLineupPolicy
 
