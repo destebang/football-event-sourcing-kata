@@ -40,5 +40,5 @@ services:
     volumes:
       - .:/app
     depends_on:
-      - mysql
+      - gamescoring_db
     command: php bin/console event-store:projection:run game_projection
