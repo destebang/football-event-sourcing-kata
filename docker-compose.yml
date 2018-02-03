@@ -13,6 +13,27 @@ services:
     volumes:
       - ./vendor/prooph/pdo-event-store/scripts/mysql:/docker-entrypoint-initdb.d
 
+  nginx:
+    image: prooph/nginx:www
+    ports:
+      - 8080:80
+      - 443:443
+      - 10081:10081
+      - 10082:10082
+    links:
+      - php:php
+    volumes:
+      - .:/var/www
+
+  php:
+    image: prooph/php:7.1-fpm
+    volumes:
+      - .:/var/www
+    depends_on:
+      - mysql
+    environment:
+      - PROOPH_ENV=development
+
   projection_game:
     image: prooph/php:7.1-cli
     entrypoint: /app/.docker/wait_for_sql.sh
