@@ -44,15 +44,4 @@ class GameProjection implements ReadModelProjection
 
         return $projector;
     }
-
-    /**
-     * @param array $foundGame
-     * @param AggregateChanged|OwnGoalScored|GoalScored $aggregateChanged
-     * @return array
-     */
-    private static function updatedScore(array $foundGame, AggregateChanged $aggregateChanged): array
-    {
-
-        return $data;
-    }
 }
