@@ -30,7 +30,7 @@ services:
     volumes:
       - .:/var/www
     depends_on:
-      - mysql
+      - gamescoring_db
     environment:
       - PROOPH_ENV=development
 
