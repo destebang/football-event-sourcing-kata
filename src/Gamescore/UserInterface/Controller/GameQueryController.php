@@ -39,7 +39,7 @@ class GameQueryController extends Controller
                 }
             )->otherwise(
                 function() {
-                    JsonResponse::create('Error getting result', 500);
+                    return JsonResponse::create('Error getting result', 500);
                 }
             );
 
