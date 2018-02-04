@@ -28,7 +28,16 @@ services:
         arguments: ['@prooph_service_bus.gamescoring_command_bus', '@prooph_service_bus.message_factory']
         tags: ['controller.service_arguments']
 
+    Football\Gamescore\UserInterface\Controller\GameQueryController:
+        class: Football\Gamescore\UserInterface\Controller\GameQueryController
+        arguments: ['@prooph_service_bus.gamescoring_query_bus']
+        tags: ['controller.service_arguments']
+
     Football\Gamescore\Projection\Game\GameReadModel:
+        arguments: ['@doctrine.dbal.default_connection']
+
+    football.gamescore.projection.game.game_finder:
+        class: Football\Gamescore\Projection\Game\GameFinder
         arguments: ['@doctrine.dbal.default_connection']
 
     Football\Gamescore\Domain\Service\Game\SimpleLineupPolicy:
@@ -50,3 +59,11 @@ services:
           - '@game_list'
         tags:
             - { name: 'prooph_service_bus.gamescoring_command_bus.route_target', message_detection: true }
+
+    Football\Gamescore\Application\QueryHandler\GetGameByIdHandler:
+        class: Football\Gamescore\Application\QueryHandler\GetGameByIdHandler
+        public: true
+        arguments:
+          - '@football.gamescore.projection.game.game_finder'
+        tags:
+            - { name: 'prooph_service_bus.gamescoring_query_bus.route_target', message:  Football\Gamescore\Domain\Query\GetGameById }

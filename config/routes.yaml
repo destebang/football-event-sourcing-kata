@@ -1,7 +1,14 @@
 command::start-game:
     path: /api/game
+    methods: [POST]
     defaults: { _controller: Football\Gamescore\UserInterface\Controller\ApiCommandController:postAction, prooph_command_name: 'Football\Gamescore\Domain\Command\StartGame' }
 
 command::score-goal:
     path: /api/game/goal
+    methods: [POST]
     defaults: { _controller: Football\Gamescore\UserInterface\Controller\ApiCommandController:postAction, prooph_command_name: 'Football\Gamescore\Domain\Command\ScoreGoal' }
+
+command::get-game:
+    path: /api/game/{gameId}
+    methods: [GET]
+    defaults: { _controller: Football\Gamescore\UserInterface\Controller\GameQueryController:getGame }

@@ -113,6 +113,9 @@
     "ramsey/uuid": {
         "version": "3.x-dev"
     },
+    "react/promise": {
+        "version": "dev-master"
+    },
     "symfony/cache": {
         "version": "4.0.x-dev"
     },

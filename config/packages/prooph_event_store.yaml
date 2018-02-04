@@ -15,12 +15,6 @@ prooph_event_store:
                 game_projection:
                     read_model: Football\Gamescore\Projection\Game\GameReadModel
                     projection: Football\Gamescore\Projection\Game\GameProjection
-    #            todo_projection:
-    #                read_model: Prooph\ProophessorDo\Projection\Todo\TodoReadModel
-    #                projection: Prooph\ProophessorDo\Projection\Todo\TodoProjection
-    #            todo_reminder_projection:
-    #                read_model: Prooph\ProophessorDo\Projection\Todo\TodoReminderReadModel
-    #                projection: Prooph\ProophessorDo\Projection\Todo\TodoReminderProjection
 
 
 services:
