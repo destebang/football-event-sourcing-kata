@@ -3,7 +3,7 @@ set -e
 
 echo ">> Waiting for MySql to start"
 WAIT=0
-while ! nc -z mysql 3306; do
+while ! nc -z gamescoring_db 3306; do
   sleep 1
   echo "   MySql not ready yet"
   WAIT=$(($WAIT + 1))
