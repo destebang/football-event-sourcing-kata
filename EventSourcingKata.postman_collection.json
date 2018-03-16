@@ -10,7 +10,7 @@
 		{
 			"name": "Start a game (Madrid - Leganes)",
 			"request": {
-				"url": "http://127.0.0.1:8000/api/game",
+				"url": "http://127.0.0.1:8080/api/game",
 				"method": "POST",
 				"header": [
 					{
@@ -30,7 +30,7 @@
 		{
 			"name": "Eraso scores goal",
 			"request": {
-				"url": "http://127.0.0.1:8000/api/game/goal",
+				"url": "http://127.0.0.1:8080/api/game/goal",
 				"method": "POST",
 				"header": [
 					{
@@ -50,7 +50,7 @@
 		{
 			"name": "Get a game",
 			"request": {
-				"url": "http://127.0.0.1:8000/api/game/e40aad58-8a36-4fa0-b8d7-24adf8e65816",
+				"url": "http://127.0.0.1:8080/api/game/e40aad58-8a36-4fa0-b8d7-24adf8e65816",
 				"method": "GET",
 				"header": [
 					{
