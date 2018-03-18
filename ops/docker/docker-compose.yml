@@ -1,5 +1,5 @@
-
 version: "2"
+
 services:
   gamescoring_db:
     image: mysql
@@ -11,7 +11,7 @@ services:
       - MYSQL_PASSWORD=password
       - MYSQL_DATABASE=gamescoring
     volumes:
-      - ./vendor/prooph/pdo-event-store/scripts/mysql:/docker-entrypoint-initdb.d
+      - ../../vendor/prooph/pdo-event-store/scripts/mysql:/docker-entrypoint-initdb.d
 
   nginx:
     image: prooph/nginx:www
@@ -22,13 +22,13 @@ services:
       - 10082:10082
     links:
       - php:php
-    volumes:
-      - .:/var/www
+    volumes_from:
+      - php
 
   php:
-    image: prooph/php:7.1-fpm
+    image: prooph/php:7.1-fpm-xdebug
     volumes:
-      - .:/var/www
+      - ../../.:/var/www
     depends_on:
       - gamescoring_db
     environment:
@@ -36,9 +36,9 @@ services:
 
   projection_game:
     image: prooph/php:7.1-cli
-    entrypoint: /app/.docker/wait_for_sql.sh
+    entrypoint: /app/ops/scripts/wait_for_sql.sh
     volumes:
-      - .:/app
+      - ../../.:/app
     depends_on:
       - gamescoring_db
     command: php bin/console event-store:projection:run game_projection
